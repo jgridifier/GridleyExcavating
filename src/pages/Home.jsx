@@ -30,22 +30,25 @@ function CountUp({ target, suffix = '' }) {
 
 const productCategories = [
   {
-    icon: 'terrain',
     title: 'Gravel & Stone',
-    desc: 'We carry everything from Item #4 for driveways to fine crushed stone for drainage. Not sure which one you need? Give us a holler, we\'ll point you in the right direction.',
+    desc: 'We carry everything from Item #4 for driveways to fine crushed stone for drainage. Not sure which one you need?',
     highlight: 'Most products $30/yard',
+    img: 'IMG_1348.jpg',
+    position: 'center 35%',
   },
   {
-    icon: 'grass',
     title: 'Topsoil',
-    desc: 'Screened topsoil for lawns and gardens, SHED topsoil, or straight overburden for fill. We sell by the yard and can deliver or load your trailer.',
+    desc: 'Screened topsoil for lawns and gardens, SHED topsoil, or straight overburden for fill.',
     highlight: 'From $9.00/yard',
+    img: 'IMG_1338.jpg',
+    position: 'center 30%',
   },
   {
-    icon: 'forest',
     title: 'Mulch',
-    desc: 'Double ground hardwood in brown or black, and playground-certified mulch.',
+    desc: 'Double ground hardwood in brown, black, or red, and playground-certified mulch.',
     highlight: 'From $27.78/yard',
+    img: 'IMG_1332.jpg',
+    position: 'center 40%',
   },
 ]
 
@@ -236,12 +239,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── WHAT WE OFFER ─────────────────────────────────────────────── */}
+      {/* ── WHAT WE CARRY ─────────────────────────────────────────────── */}
       <section style={{ padding: '96px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ marginBottom: 56, textAlign: 'center' }}>
-            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 12 }}>
-              What We Offer
+          <motion.div {...fadeUp()} style={{ marginBottom: 48, borderLeft: '4px solid #c8210a', paddingLeft: 16 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 8 }}>
+              What We Carry
             </p>
             <h2 style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -256,126 +259,118 @@ export default function Home() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 20,
+            gap: 16,
           }}>
             {productCategories.map((cat, i) => (
               <Link key={cat.title} to="/products" style={{ textDecoration: 'none' }}>
-              <motion.div
-                {...fadeUp(i * 0.12)}
-                whileHover={{ x: 4 }}
-                style={{
-                  background: '#242424',
-                  borderLeft: '4px solid #c8210a',
-                  borderRadius: 0,
-                  padding: '32px 28px',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s',
-                  height: '100%',
-                }}
-                onMouseEnter={e => e.currentTarget.style.background = '#2a2a2a'}
-                onMouseLeave={e => e.currentTarget.style.background = '#242424'}
-              >
-                <span className="material-icons-outlined" style={{ fontSize: 40, color: '#c8210a', display: 'block', marginBottom: 16 }}>{cat.icon}</span>
-                <h3 style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: 26, fontWeight: 800, color: '#f0ebe3',
-                  textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 12,
-                }}>{cat.title}</h3>
-                <p style={{ fontSize: 15, color: '#aaa', lineHeight: 1.65, marginBottom: 20 }}>{cat.desc}</p>
-                <div style={{
-                  display: 'inline-block',
-                  padding: '5px 12px',
-                  background: 'rgba(200,33,10,0.12)',
-                  border: '1px solid rgba(200,33,10,0.3)',
-                  borderRadius: 0,
-                  fontSize: 13, fontWeight: 600, color: '#c8210a',
-                }}>{cat.highlight}</div>
-              </motion.div>
+                <motion.div
+                  {...fadeUp(i * 0.1)}
+                  style={{
+                    position: 'relative',
+                    aspectRatio: '3/4',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <img
+                    src={`${base}images/${cat.img}`}
+                    alt={cat.title}
+                    loading="lazy"
+                    style={{
+                      width: '100%', height: '100%',
+                      objectFit: 'cover', objectPosition: cat.position,
+                      display: 'block',
+                      transition: 'transform 0.5s ease',
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
+                    onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                  />
+                  {/* gradient overlay */}
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%)',
+                  }} />
+                  {/* left-rail accent */}
+                  <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 4, background: '#c8210a' }} />
+                  {/* text */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 24px 24px' }}>
+                    <h3 style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: 32, fontWeight: 900, color: '#f0ebe3',
+                      textTransform: 'uppercase', lineHeight: 1, marginBottom: 8,
+                    }}>{cat.title}</h3>
+                    <p style={{ fontSize: 13, color: 'rgba(240,235,227,0.75)', lineHeight: 1.5, marginBottom: 12 }}>{cat.desc}</p>
+                    <span style={{
+                      fontSize: 13, fontWeight: 700, color: '#c8210a',
+                      fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '0.5px',
+                    }}>{cat.highlight} →</span>
+                  </div>
+                </motion.div>
               </Link>
             ))}
           </div>
-
-          <motion.div {...fadeUp(0.2)} style={{ textAlign: 'center', marginTop: 40 }}>
-            <Link
-              to="/products"
-              style={{
-                textDecoration: 'none',
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '13px 28px',
-                border: '1px solid #3c3c3c',
-                borderRadius: 0,
-                fontSize: 15, fontWeight: 600, color: '#f0ebe3',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(200,33,10,0.5)'; e.currentTarget.style.color = '#c8210a' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#3c3c3c'; e.currentTarget.style.color = '#f0ebe3' }}
-            >
-              See Full Price List →
-            </Link>
-          </motion.div>
         </div>
       </section>
 
-      {/* ── DELIVERY BANNER ───────────────────────────────────────────── */}
-      <section style={{
-        position: 'relative', overflow: 'hidden',
-        background: '#1a0a08',
-        borderTop: '1px solid rgba(200,33,10,0.2)',
-        borderBottom: '1px solid rgba(200,33,10,0.2)',
-        padding: '64px 24px',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: `url(${base}images/IMG_1035.JPG)`,
-          backgroundSize: 'cover', backgroundPosition: 'center',
-          opacity: 0.12,
-        }} />
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <motion.div {...fadeUp()}>
-            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 12 }}>We Come to You</p>
-            <h2 style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: 'clamp(32px, 5vw, 52px)',
-              fontWeight: 900, color: '#f0ebe3',
-              textTransform: 'uppercase', marginBottom: 16, lineHeight: 1,
-            }}>
-              Delivery Available
-            </h2>
-            <p style={{ fontSize: 16, color: '#aaa', marginBottom: 36 }}>
-              Within 20 miles round trip · Multiple truck sizes available
-            </p>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: 16, maxWidth: 600, margin: '0 auto 36px',
-            }}>
-              {[
-                { size: '4–5 yards', price: '$95' },
-                { size: '8–9 yards', price: '$110' },
-                { size: '16–22 tons', price: '$135' },
-              ].map(d => (
-                <div key={d.size} style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  borderLeft: '4px solid #c8210a',
-                  borderRadius: 0, padding: '20px 16px',
-                  textAlign: 'left',
-                }}>
-                  <div style={{ fontSize: 32, fontWeight: 900, color: '#c8210a', fontFamily: "'Barlow Condensed', sans-serif", lineHeight: 1 }}>{d.price}</div>
-                  <div style={{ fontSize: 13, color: '#aaa', marginTop: 4 }}>{d.size}</div>
-                </div>
-              ))}
-            </div>
-            <Link
-              to="/products"
-              style={{
-                textDecoration: 'none', fontSize: 15, color: '#c8210a', fontWeight: 600,
-                transition: 'opacity 0.2s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-            >
-              View full delivery details →
-            </Link>
+      {/* ── DELIVERY — 50/50 with new_7 ───────────────────────────────── */}
+      <section style={{ borderTop: '1px solid #2a2a2a', borderBottom: '1px solid #2a2a2a' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }} className="delivery-grid">
+          {/* Left: info */}
+          <div style={{ padding: '72px 48px', background: '#161616' }}>
+            <motion.div {...fadeUp()}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 12 }}>We Come to You</p>
+              <h2 style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 'clamp(32px, 4vw, 52px)',
+                fontWeight: 900, color: '#f0ebe3',
+                textTransform: 'uppercase', marginBottom: 12, lineHeight: 1,
+              }}>
+                Delivery Available
+              </h2>
+              <p style={{ fontSize: 15, color: '#888', marginBottom: 40, lineHeight: 1.6 }}>
+                Within 20 miles round trip. We run single axle, tandem, and tri-axle trucks — whatever the job calls for.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 40 }}>
+                {[
+                  { size: '4–5 yards', price: '$95' },
+                  { size: '8–9 yards', price: '$110' },
+                  { size: '16–22 tons', price: '$135' },
+                ].map(d => (
+                  <div key={d.size} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    borderLeft: '4px solid #c8210a', padding: '14px 20px',
+                    background: '#1e1e1e',
+                  }}>
+                    <span style={{ fontSize: 15, color: '#d0cbc3' }}>{d.size}</span>
+                    <span style={{ fontSize: 24, fontWeight: 900, color: '#f0ebe3', fontFamily: "'Barlow Condensed', sans-serif" }}>{d.price}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                to="/products"
+                style={{ textDecoration: 'none', fontSize: 14, color: '#c8210a', fontWeight: 600, transition: 'opacity 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
+                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+              >
+                Full delivery details →
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Right: new_7 — no overlay, full fidelity */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{ overflow: 'hidden', minHeight: 480 }}
+            className="delivery-photo"
+          >
+            <img
+              src={`${base}images/new_7.jpg`}
+              alt="Volvo EC750EL excavator with operator for scale"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }}
+            />
           </motion.div>
         </div>
       </section>
@@ -383,8 +378,8 @@ export default function Home() {
       {/* ── GALLERY ──────────────────────────────────────────────────── */}
       <section style={{ padding: '96px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <motion.div {...fadeUp()} style={{ marginBottom: 48, textAlign: 'center' }}>
-            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 12 }}>
+          <motion.div {...fadeUp()} style={{ marginBottom: 48, borderLeft: '4px solid #c8210a', paddingLeft: 16 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 8 }}>
               Our Yard &amp; Equipment
             </p>
             <h2 style={{
@@ -401,12 +396,19 @@ export default function Home() {
       </section>
 
       {/* ── CONTACT STRIP ─────────────────────────────────────────────── */}
-      <section style={{ background: '#242424', borderTop: '1px solid #3c3c3c', padding: '80px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
+      <section style={{
+        position: 'relative', overflow: 'hidden',
+        borderTop: '1px solid #3c3c3c', padding: '80px 24px',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: `url(${base}images/IMG_1383.jpg)`,
+          backgroundSize: 'cover', backgroundPosition: 'center 40%',
+          opacity: 0.08,
+        }} />
+        <div style={{ position: 'absolute', inset: 0, background: '#1a1a1a' , opacity: 0.85 }} />
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
           <motion.div {...fadeUp()}>
-            <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 16 }}>
-              Don't Be a Stranger
-            </p>
             <h2 style={{
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: 'clamp(36px, 6vw, 68px)',
@@ -449,6 +451,13 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+      <style>{`
+        @media (max-width: 768px) {
+          .delivery-grid { grid-template-columns: 1fr !important; }
+          .delivery-photo { min-height: 320px !important; }
+          .delivery-photo img { clip-path: inset(10% 0); }
+        }
+      `}</style>
     </main>
   )
 }

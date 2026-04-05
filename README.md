@@ -1,16 +1,47 @@
-# React + Vite
+# Gridley Excavating
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Website for Gridley Excavating, LLC — a gravel pit and material supplier based in Corning, NY. Sells gravel, topsoil, and mulch with pickup and delivery throughout Steuben, Chemung, and Schuyler Counties.
 
-Currently, two official plugins are available:
+Live site: https://jgridifier.github.io/GridleyExcavating/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+- **React 19** with Vite 8
+- **Framer Motion** for scroll animations and page transitions
+- **Tailwind CSS v4** with `@theme` directive
+- **React Router** (HashRouter for GitHub Pages compatibility)
+- **Bun** as package manager (installed via Homebrew)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Pages
 
-## Expanding the ESLint configuration
+| Route | Page |
+|---|---|
+| `/` | Home — hero, stats, product category cards, delivery section, gallery, contact strip |
+| `/products` | Products & Pricing — gravel, topsoil, mulch, delivery charges |
+| `/hours` | Hours & Location — hours, address, map embed |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Dev
+
+```bash
+bun install
+bun run dev
+```
+
+> Note: Vite and gh-pages CLIs are invoked directly (e.g. `bun node_modules/vite/bin/vite.js`) to work around a Node shebang issue when Node is not installed system-wide.
+
+## Build & Deploy
+
+```bash
+bun run build
+bun run deploy
+```
+
+Deploys to the `gh-pages` branch. GitHub Pages serves from that branch at the live URL above.
+
+## Images
+
+Product and gallery photos live in `public/images/`. Referenced at runtime via `import.meta.env.BASE_URL` so paths resolve correctly both locally and on GitHub Pages.
+
+## Data
+
+All products, pricing, hours, and gallery images are defined in `src/data/products.js`. Update prices there — no need to touch the page components.

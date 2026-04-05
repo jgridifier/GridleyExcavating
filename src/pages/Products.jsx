@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  GRAVEL, GRAVEL_YARD_NOTE, MIN_LOADING,
-  TOPSOIL, MULCH,
+  GRAVEL, GRAVEL_YARD_NOTE,
+  TOPSOIL,
+  MULCH,
   DELIVERY, DELIVERY_NOTE,
   PHONE_HREF, PHONE,
 } from '../data/products'
@@ -18,39 +18,10 @@ function fadeUp(delay = 0) {
   }
 }
 
-function PriceRow({ name, price, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -16 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.35, delay: index * 0.04 }}
-      style={{
-        display: 'flex',
-        alignItems: 'flex-end',
-        padding: '13px 0',
-        borderBottom: '1px solid #2a2a2a',
-      }}
-    >
-      <span style={{ fontSize: 15, color: '#d0cbc3', flexShrink: 0, paddingBottom: 2 }}>{name}</span>
-      <span style={{ flex: 1, borderBottom: '1px dotted #454545', marginBottom: 5, marginLeft: 8, marginRight: 8 }} />
-      <span style={{
-        fontSize: 16, fontWeight: 700, color: '#f0ebe3',
-        whiteSpace: 'nowrap', flexShrink: 0,
-        fontFamily: "'Barlow Condensed', sans-serif",
-        letterSpacing: '1px',
-      }}>{price}</span>
-    </motion.div>
-  )
-}
-
 function SectionHeader({ label, title }) {
   return (
     <motion.div {...fadeUp()} style={{ marginBottom: 32, borderLeft: '4px solid #c8210a', paddingLeft: 16 }}>
-      <p style={{
-        fontSize: 11, fontWeight: 700, letterSpacing: '3px',
-        color: '#c8210a', textTransform: 'uppercase', marginBottom: 6,
-      }}>{label}</p>
+      <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '3px', color: '#c8210a', textTransform: 'uppercase', marginBottom: 6 }}>{label}</p>
       <h2 style={{
         fontFamily: "'Barlow Condensed', sans-serif",
         fontSize: 'clamp(30px, 4vw, 44px)',
@@ -61,26 +32,110 @@ function SectionHeader({ label, title }) {
   )
 }
 
-const TABS = ['Gravel & Stone', 'Topsoil', 'Mulch']
+function MoodStrip({ src, alt, position = 'center' }) {
+  return (
+    <motion.div
+      {...fadeUp()}
+      style={{
+        position: 'relative',
+        height: 280,
+        overflow: 'hidden',
+        marginBottom: 36,
+        borderLeft: '4px solid #c8210a',
+      }}
+    >
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: `url(${base}images/${src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: position,
+      }} />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%)',
+      }} />
+    </motion.div>
+  )
+}
+
+function ProductCard({ name, price, img, imgPosition = 'center 50%', index }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      style={{
+        background: '#1e1e1e',
+        borderLeft: '4px solid #c8210a',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {img && (
+        <div style={{ height: 140, overflow: 'hidden', flexShrink: 0 }}>
+          <img
+            src={`${base}images/${img}`}
+            alt={name}
+            loading="lazy"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: imgPosition, display: 'block' }}
+          />
+        </div>
+      )}
+      <div style={{ padding: '14px 18px', flex: 1 }}>
+        <div style={{ fontSize: 14, color: '#d0cbc3', lineHeight: 1.4, marginBottom: 8 }}>{name}</div>
+        <div style={{
+          fontSize: 16, fontWeight: 700, color: '#f0ebe3',
+          fontFamily: "'Barlow Condensed', sans-serif",
+          letterSpacing: '0.5px',
+        }}>{price}</div>
+      </div>
+    </motion.div>
+  )
+}
+
+function TextPriceRow({ name, note, price, index }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -12 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.35, delay: index * 0.04 }}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0', gap: 24 }}
+    >
+      <div>
+        <span style={{ fontSize: 14, color: '#d0cbc3' }}>{name}</span>
+        {note && (
+          <div style={{ fontSize: 11, color: '#666', fontStyle: 'italic', marginTop: 2 }}>{note}</div>
+        )}
+      </div>
+      <span style={{
+        fontSize: 15, fontWeight: 700, color: '#f0ebe3',
+        whiteSpace: 'nowrap', flexShrink: 0,
+        fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '1px',
+      }}>{price}</span>
+    </motion.div>
+  )
+}
 
 export default function Products() {
-  const [activeTab, setActiveTab] = useState(0)
+  const withPhoto = (arr) => arr.filter(p => p.img)
+  const withoutPhoto = (arr) => arr.filter(p => !p.img)
 
   return (
     <main style={{ paddingTop: 68 }}>
+
       {/* Hero banner */}
-      <div style={{
-        position: 'relative', height: 260, overflow: 'hidden',
-        display: 'flex', alignItems: 'center',
-      }}>
+      <div style={{ position: 'relative', height: 260, overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
         <div style={{
           position: 'absolute', inset: 0,
-          backgroundImage: `url(${base}images/IMG_1033.JPG)`,
+          backgroundImage: `url(${base}images/IMG_1379.jpg)`,
           backgroundSize: 'cover', backgroundPosition: 'center 48%',
         }} />
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%)',
+          background: 'linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 100%)',
         }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '0 24px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
           <motion.h1
@@ -102,7 +157,7 @@ export default function Products() {
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginTop: 10 }}
           >
-            Updated 03/17/2026 · Plus applicable tax · Prices subject to change
+            Updated 03/17/2026 · Plus applicable tax
           </motion.p>
         </div>
       </div>
@@ -114,7 +169,7 @@ export default function Products() {
           background: 'rgba(200,33,10,0.08)',
           borderLeft: '4px solid #c8210a',
           borderRadius: 0, padding: '16px 24px',
-          marginBottom: 56,
+          marginBottom: 72,
           display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
         }}>
           <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>info</span>
@@ -123,80 +178,92 @@ export default function Products() {
           </p>
         </motion.div>
 
-        {/* Tabs */}
-        <motion.div {...fadeUp(0.05)} style={{ display: 'flex', gap: 8, marginBottom: 40, flexWrap: 'wrap' }}>
-          {TABS.map((tab, i) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(i)}
-              style={{
-                padding: '10px 24px',
-                borderRadius: 0,
-                border: 'none',
-                borderBottom: activeTab === i ? '3px solid #c8210a' : '3px solid transparent',
-                background: 'transparent',
-                color: activeTab === i ? '#f0ebe3' : '#666',
-                fontSize: 15, fontWeight: 600, cursor: 'pointer',
-                fontFamily: "'Barlow Condensed', sans-serif",
-                letterSpacing: '0.5px',
-                transition: 'all 0.2s',
-              }}
-            >{tab}</button>
-          ))}
-        </motion.div>
+        {/* ── GRAVEL & STONE ─────────────────────────────────────────── */}
+        <section style={{ marginBottom: 80 }}>
+          <SectionHeader label="Stone & Aggregates" title="Gravel & Stone" />
+          <MoodStrip src="new_3.jpg" alt="Sandvik crusher at the quarry" position="center 45%" />
 
-        {/* Gravel */}
-        {activeTab === 0 && (
-          <div>
-            <SectionHeader label="Stone & Aggregates" title="Gravel Products" />
-            <div style={{ background: '#242424', borderLeft: '4px solid #c8210a', padding: '8px 24px', marginBottom: 20 }}>
-              {GRAVEL.map((item, i) => (
-                <PriceRow key={item.name} name={item.name} price={item.price} index={i} />
+          {/* Photo cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gap: 12, marginBottom: 12,
+          }}>
+            {withPhoto(GRAVEL).map((item, i) => (
+              <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} index={i} />
+            ))}
+          </div>
+
+          {/* Text-only rows for products without photos */}
+          {withoutPhoto(GRAVEL).length > 0 && (
+            <div style={{ background: '#1e1e1e', borderLeft: '4px solid #c8210a', padding: '4px 24px', marginBottom: 12 }}>
+              {withoutPhoto(GRAVEL).map((item, i) => (
+                <TextPriceRow key={item.name} name={item.name} note={item.note} price={item.price} index={i} />
               ))}
             </div>
-            <motion.div {...fadeUp(0.1)} style={{
-              background: 'rgba(200,33,10,0.07)',
-              borderLeft: '4px solid rgba(200,33,10,0.5)',
-              borderRadius: 0, padding: '16px 20px',
-              fontSize: 14, color: '#aaa', lineHeight: 1.6, marginBottom: 12,
-            }}>
-              <span style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                <span className="material-icons-outlined" style={{ fontSize: 16, color: '#c8210a', flexShrink: 0, marginTop: 1 }}>tips_and_updates</span>
-                {GRAVEL_YARD_NOTE}
-              </span>
-            </motion.div>
-          </div>
-        )}
+          )}
 
-        {/* Topsoil */}
-        {activeTab === 1 && (
-          <div>
-            <SectionHeader label="Dirt & Fill" title="Topsoil Products" />
-            <div style={{ background: '#242424', borderLeft: '4px solid #c8210a', padding: '8px 24px', marginBottom: 20 }}>
-              {TOPSOIL.map((item, i) => (
-                <PriceRow key={item.name} name={item.name} price={item.price} index={i} />
+          <motion.div {...fadeUp(0.1)} style={{
+            background: 'rgba(200,33,10,0.07)',
+            borderLeft: '4px solid rgba(200,33,10,0.5)',
+            padding: '14px 20px',
+            fontSize: 13, color: '#aaa', lineHeight: 1.6,
+          }}>
+            <span style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+              <span className="material-icons-outlined" style={{ fontSize: 16, color: '#c8210a', flexShrink: 0, marginTop: 1 }}>tips_and_updates</span>
+              {GRAVEL_YARD_NOTE}
+            </span>
+          </motion.div>
+        </section>
+
+        <div style={{ height: 1, background: '#2a2a2a', marginBottom: 80 }} />
+
+        {/* ── TOPSOIL ─────────────────────────────────────────────────── */}
+        <section style={{ marginBottom: 80 }}>
+          <SectionHeader label="Dirt & Fill" title="Topsoil" />
+          <MoodStrip src="IMG_1192.jpg" alt="Gridley yard with stone piles and mountains" position="center 35%" />
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gap: 12, marginBottom: 12,
+          }}>
+            {withPhoto(TOPSOIL).map((item, i) => (
+              <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} imgPosition={item.imgPosition} index={i} />
+            ))}
+          </div>
+
+          {withoutPhoto(TOPSOIL).length > 0 && (
+            <div style={{ background: '#1e1e1e', borderLeft: '4px solid #c8210a', padding: '4px 24px' }}>
+              {withoutPhoto(TOPSOIL).map((item, i) => (
+                <TextPriceRow key={item.name} name={item.name} note={item.note} price={item.price} index={i} />
               ))}
             </div>
+          )}
+        </section>
+
+        <div style={{ height: 1, background: '#2a2a2a', marginBottom: 80 }} />
+
+        {/* ── MULCH ───────────────────────────────────────────────────── */}
+        <section style={{ marginBottom: 80 }}>
+          <SectionHeader label="Landscaping" title="Mulch" />
+          <MoodStrip src="IMG_1377.jpg" alt="John Deere 644K loader at Gridley yard" position="center 40%" />
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gap: 12,
+          }}>
+            {MULCH.map((item, i) => (
+              <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} index={i} />
+            ))}
           </div>
-        )}
+        </section>
 
-        {/* Mulch */}
-        {activeTab === 2 && (
-          <div>
-            <SectionHeader label="Landscaping" title="Mulch Products" />
-            <div style={{ background: '#242424', borderLeft: '4px solid #c8210a', padding: '8px 24px', marginBottom: 20 }}>
-              {MULCH.map((item, i) => (
-                <PriceRow key={item.name} name={item.name} price={item.price} index={i} />
-              ))}
-            </div>
-          </div>
-        )}
+        <div style={{ height: 1, background: '#2a2a2a', margin: '0 0 80px' }} />
 
-        {/* Divider */}
-        <div style={{ height: 1, background: '#3c3c3c', margin: '64px 0' }} />
-
-        {/* Delivery */}
-        <div style={{ marginBottom: 64 }}>
+        {/* ── DELIVERY ────────────────────────────────────────────────── */}
+        <section style={{ marginBottom: 64 }}>
           <SectionHeader label="We Deliver" title="Delivery Charges" />
           <p style={{ fontSize: 14, color: '#aaa', marginBottom: 32 }}>{DELIVERY_NOTE}</p>
           <div style={{
@@ -210,13 +277,13 @@ export default function Products() {
                 {...fadeUp(i * 0.1)}
                 whileHover={{ x: 4 }}
                 style={{
-                  background: '#242424',
+                  background: '#1e1e1e',
                   borderLeft: '4px solid #c8210a',
                   borderRadius: 0, padding: '28px 24px',
                   transition: 'background 0.2s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = '#2a2a2a'}
-                onMouseLeave={e => e.currentTarget.style.background = '#242424'}
+                onMouseEnter={e => e.currentTarget.style.background = '#262626'}
+                onMouseLeave={e => e.currentTarget.style.background = '#1e1e1e'}
               >
                 <div style={{
                   fontFamily: "'Barlow Condensed', sans-serif",
@@ -227,11 +294,11 @@ export default function Products() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* PDF + CTA */}
+        {/* ── CTA ─────────────────────────────────────────────────────── */}
         <motion.div {...fadeUp()} style={{
-          background: '#242424',
+          background: '#1e1e1e',
           borderLeft: '4px solid #c8210a',
           borderRadius: 0, padding: '40px 32px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -255,6 +322,7 @@ export default function Products() {
                 transition: 'background 0.2s',
                 fontFamily: "'Barlow Condensed', sans-serif",
                 letterSpacing: '0.5px',
+                display: 'inline-flex', alignItems: 'center', gap: 6,
               }}
               onMouseEnter={e => e.currentTarget.style.background = '#e02a0e'}
               onMouseLeave={e => e.currentTarget.style.background = '#c8210a'}
@@ -269,14 +337,16 @@ export default function Products() {
                 border: '1px solid #3c3c3c', color: '#f0ebe3',
                 borderRadius: 0, fontWeight: 600, fontSize: 15,
                 transition: 'border-color 0.2s, color 0.2s',
+                display: 'inline-flex', alignItems: 'center', gap: 6,
               }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(200,33,10,0.5)'; e.currentTarget.style.color = '#c8210a' }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = '#3c3c3c'; e.currentTarget.style.color = '#f0ebe3' }}
             >
-              <span className="material-icons-outlined" style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 6 }}>download</span>Download Price Sheet (PDF)
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>download</span>Download Price Sheet (PDF)
             </a>
           </div>
         </motion.div>
+
       </div>
     </main>
   )

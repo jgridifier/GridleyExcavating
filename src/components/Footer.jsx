@@ -63,14 +63,12 @@ export default function Footer() {
           <div>
             <h4 style={{ fontSize: 12, fontWeight: 600, color: '#aaa', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 16 }}>Hours</h4>
             <p style={{ fontSize: 14, color: '#f0ebe3', marginBottom: 4 }}>Mon – Fri: <span style={{ color: '#aaa' }}>7:00 AM – 4:00 PM</span></p>
-            <p style={{ fontSize: 14, color: '#f0ebe3', marginBottom: 4 }}>Saturday: <span style={{ color: '#aaa' }}>7:00 AM – 12:00 PM</span></p>
-            <p style={{ fontSize: 12, color: '#777', marginTop: 4 }}>Seasonal hours may apply</p>
+            <p style={{ fontSize: 14, color: '#f0ebe3' }}>Saturday: <span style={{ color: '#aaa' }}>7:00 AM – 12:00 PM</span></p>
           </div>
         </div>
 
         <div style={{ borderTop: '1px solid #3c3c3c', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ fontSize: 13, color: '#777' }}>© {new Date().getFullYear()} Gridley Excavating, LLC. All rights reserved.</p>
-          <p style={{ fontSize: 12, color: '#666' }}>Prices subject to change · Plus applicable tax</p>
         </div>
       </div>
     </footer>
