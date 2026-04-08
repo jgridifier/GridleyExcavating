@@ -120,8 +120,8 @@ export default function Hours() {
           >
             <div style={{ position: 'relative', height: '100%', minHeight: 300 }}>
               <img
-                src={`${base}images/IMG_1381.jpg`}
-                alt="Gridley Excavating truck at the yard"
+                src={`${base}images/IMG_5444.jpeg`}
+                alt="Gridley Gravel sign at the yard"
                 className="hours-photo-img"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 50%', display: 'block' }}
               />
