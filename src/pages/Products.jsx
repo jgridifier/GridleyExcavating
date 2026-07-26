@@ -1,8 +1,11 @@
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
-  GRAVEL, GRAVEL_YARD_NOTE,
-  TOPSOIL,
-  MULCH,
+  PRICING_TIERS,
+  RETAIL_SOIL, RETAIL_MULCH,
+  RETAIL_CRUSHED_STONE, RETAIL_ROUND_STONE, RETAIL_SAND_GRAVEL, RETAIL_SPECIALTY,
+  CONTRACTOR_CRUSHED_STONE, CONTRACTOR_ROUND_STONE, CONTRACTOR_SAND_GRAVEL, CONTRACTOR_SPECIALTY,
+  CONTRACTOR_YARD_ONLY_NOTE,
   DELIVERY, DELIVERY_NOTE,
   PHONE_HREF, PHONE,
 } from '../data/products'
@@ -95,6 +98,89 @@ function ProductCard({ name, price, img, imgPosition = 'center 50%', index }) {
   )
 }
 
+function SubGroupLabel({ children }) {
+  return (
+    <h3 style={{
+      fontFamily: "'Barlow Condensed', sans-serif",
+      fontSize: 15, fontWeight: 700, color: '#c8210a',
+      textTransform: 'uppercase', letterSpacing: '1.5px',
+      marginBottom: 12, marginTop: 28,
+    }}>{children}</h3>
+  )
+}
+
+function PriceGroup({ title, items, index = 0 }) {
+  const withPhoto = items.filter(p => p.img)
+  const withoutPhoto = items.filter(p => !p.img)
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <SubGroupLabel>{title}</SubGroupLabel>
+      {withPhoto.length > 0 && (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+          gap: 12, marginBottom: withoutPhoto.length > 0 ? 12 : 0,
+        }}>
+          {withPhoto.map((item, i) => (
+            <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} imgPosition={item.imgPosition} index={index + i} />
+          ))}
+        </div>
+      )}
+      {withoutPhoto.length > 0 && (
+        <div style={{ background: '#1e1e1e', borderLeft: '4px solid #c8210a', padding: '4px 24px' }}>
+          {withoutPhoto.map((item, i) => (
+            <TextPriceRow key={item.name} name={item.name} note={item.note} price={item.price} index={index + i} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function TierToggle({ tier, setTier }) {
+  return (
+    <motion.div {...fadeUp()} style={{ marginBottom: 40 }}>
+      <p style={{ fontSize: 13, color: '#aaa', marginBottom: 12 }}>Which pricing applies to you?</p>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gap: 12,
+      }}>
+        {PRICING_TIERS.map(t => {
+          const active = t.key === tier
+          return (
+            <button
+              key={t.key}
+              onClick={() => setTier(t.key)}
+              style={{
+                cursor: 'pointer',
+                textAlign: 'left',
+                background: active ? 'rgba(200,33,10,0.12)' : '#1e1e1e',
+                border: 'none',
+                borderLeft: active ? '4px solid #c8210a' : '4px solid #3c3c3c',
+                padding: '18px 20px',
+                transition: 'background 0.2s, border-color 0.2s',
+              }}
+              onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = '#888' }}
+              onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = '#3c3c3c' }}
+            >
+              <div style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 22, fontWeight: 900, lineHeight: 1,
+                color: active ? '#f0ebe3' : '#888',
+                textTransform: 'uppercase', marginBottom: 4,
+              }}>
+                {t.label} <span style={{ color: active ? '#c8210a' : '#666' }}>· {t.sublabel}</span>
+              </div>
+              <div style={{ fontSize: 13, color: active ? '#d0cbc3' : '#666' }}>{t.audience}</div>
+            </button>
+          )
+        })}
+      </div>
+    </motion.div>
+  )
+}
+
 function TextPriceRow({ name, note, price, index }) {
   return (
     <motion.div
@@ -120,8 +206,14 @@ function TextPriceRow({ name, note, price, index }) {
 }
 
 export default function Products() {
-  const withPhoto = (arr) => arr.filter(p => p.img)
-  const withoutPhoto = (arr) => arr.filter(p => !p.img)
+  const [tier, setTier] = useState('retail')
+  const isRetail = tier === 'retail'
+  const activeTier = PRICING_TIERS.find(t => t.key === tier)
+
+  const crushedStone = isRetail ? RETAIL_CRUSHED_STONE : CONTRACTOR_CRUSHED_STONE
+  const roundStone = isRetail ? RETAIL_ROUND_STONE : CONTRACTOR_ROUND_STONE
+  const sandGravel = isRetail ? RETAIL_SAND_GRAVEL : CONTRACTOR_SAND_GRAVEL
+  const specialty = isRetail ? RETAIL_SPECIALTY : CONTRACTOR_SPECIALTY
 
   return (
     <main style={{ paddingTop: 68 }}>
@@ -157,110 +249,117 @@ export default function Products() {
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginTop: 10 }}
           >
-            Updated 03/17/2026 · Plus applicable tax
+            Updated 07/26/2026 · Plus applicable tax
           </motion.p>
         </div>
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 24px' }}>
 
+        {/* Tier toggle */}
+        <TierToggle tier={tier} setTier={setTier} />
+
         {/* Alert banner */}
-        <motion.div {...fadeUp()} style={{
-          background: 'rgba(200,33,10,0.08)',
-          borderLeft: '4px solid #c8210a',
-          borderRadius: 0, padding: '16px 24px',
-          marginBottom: 72,
-          display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
-        }}>
-          <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>info</span>
-          <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
-            <strong style={{ color: '#f0ebe3' }}>Minimum loading charge for pickup: $30.00</strong> · Open accounts available with approved credit application · Net 30 payment terms
-          </p>
-        </motion.div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tier}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            style={{
+              background: 'rgba(200,33,10,0.08)',
+              borderLeft: '4px solid #c8210a',
+              borderRadius: 0, padding: '16px 24px',
+              marginBottom: 72,
+              display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+            }}>
+            <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>info</span>
+            <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
+              <strong style={{ color: '#f0ebe3' }}>{activeTier.minNote}</strong> · Open accounts available with approved credit application · Net 30 payment terms
+            </p>
+          </motion.div>
+        </AnimatePresence>
 
         {/* ── GRAVEL & STONE ─────────────────────────────────────────── */}
         <section style={{ marginBottom: 80 }}>
           <SectionHeader label="Stone & Aggregates" title="Gravel & Stone" />
           <MoodStrip src="new_3.jpg" alt="Sandvik crusher at the quarry" position="center 45%" />
 
-          {/* Photo cards */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: 12, marginBottom: 12,
-          }}>
-            {withPhoto(GRAVEL).map((item, i) => (
-              <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} index={i} />
-            ))}
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={tier}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <PriceGroup title="Crushed Stone" items={crushedStone} />
+              <PriceGroup title="Round Stone" items={roundStone} />
+              <PriceGroup title="Sand & Gravel" items={sandGravel} />
+              <PriceGroup title="Specialty" items={specialty} />
+            </motion.div>
+          </AnimatePresence>
+        </section>
 
-          {/* Text-only rows for products without photos */}
-          {withoutPhoto(GRAVEL).length > 0 && (
-            <div style={{ background: '#1e1e1e', borderLeft: '4px solid #c8210a', padding: '4px 24px', marginBottom: 12 }}>
-              {withoutPhoto(GRAVEL).map((item, i) => (
-                <TextPriceRow key={item.name} name={item.name} note={item.note} price={item.price} index={i} />
-              ))}
-            </div>
-          )}
+        <div style={{ height: 1, background: '#2a2a2a', marginBottom: 80 }} />
 
-          <motion.div {...fadeUp(0.1)} style={{
-            background: 'rgba(200,33,10,0.07)',
+        {isRetail ? (
+          <>
+            {/* ── TOPSOIL ─────────────────────────────────────────────── */}
+            <section style={{ marginBottom: 80 }}>
+              <SectionHeader label="Dirt & Fill" title="Topsoil" />
+              <MoodStrip src="IMG_1192.jpg" alt="Gridley yard with stone piles and mountains" position="center 35%" />
+              <PriceGroup title="Soil" items={RETAIL_SOIL} />
+            </section>
+
+            <div style={{ height: 1, background: '#2a2a2a', marginBottom: 80 }} />
+
+            {/* ── MULCH ───────────────────────────────────────────────── */}
+            <section style={{ marginBottom: 80 }}>
+              <SectionHeader label="Landscaping" title="Mulch" />
+              <MoodStrip src="IMG_1377.jpg" alt="John Deere 644K loader at Gridley yard" position="center 40%" />
+
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gap: 12,
+              }}>
+                {RETAIL_MULCH.map((item, i) => (
+                  <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} index={i} />
+                ))}
+              </div>
+            </section>
+
+            <div style={{ height: 1, background: '#2a2a2a', margin: '0 0 80px' }} />
+          </>
+        ) : (
+          <motion.div {...fadeUp()} style={{
+            background: '#1e1e1e',
             borderLeft: '4px solid rgba(200,33,10,0.5)',
-            padding: '14px 20px',
-            fontSize: 13, color: '#aaa', lineHeight: 1.6,
+            padding: '20px 24px',
+            marginBottom: 80,
+            display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
           }}>
-            <span style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-              <span className="material-icons-outlined" style={{ fontSize: 16, color: '#c8210a', flexShrink: 0, marginTop: 1 }}>tips_and_updates</span>
-              {GRAVEL_YARD_NOTE}
-            </span>
+            <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>tips_and_updates</span>
+            <p style={{ fontSize: 14, color: '#aaa', flex: 1, lineHeight: 1.5 }}>
+              {CONTRACTOR_YARD_ONLY_NOTE}
+            </p>
+            <button
+              onClick={() => setTier('retail')}
+              style={{
+                cursor: 'pointer', background: 'transparent',
+                border: '1px solid #3c3c3c', color: '#f0ebe3',
+                padding: '8px 16px', fontSize: 13, fontWeight: 600,
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(200,33,10,0.5)'; e.currentTarget.style.color = '#c8210a' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = '#3c3c3c'; e.currentTarget.style.color = '#f0ebe3' }}
+            >
+              View Retail Pricing →
+            </button>
           </motion.div>
-        </section>
-
-        <div style={{ height: 1, background: '#2a2a2a', marginBottom: 80 }} />
-
-        {/* ── TOPSOIL ─────────────────────────────────────────────────── */}
-        <section style={{ marginBottom: 80 }}>
-          <SectionHeader label="Dirt & Fill" title="Topsoil" />
-          <MoodStrip src="IMG_1192.jpg" alt="Gridley yard with stone piles and mountains" position="center 35%" />
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: 12, marginBottom: 12,
-          }}>
-            {withPhoto(TOPSOIL).map((item, i) => (
-              <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} imgPosition={item.imgPosition} index={i} />
-            ))}
-          </div>
-
-          {withoutPhoto(TOPSOIL).length > 0 && (
-            <div style={{ background: '#1e1e1e', borderLeft: '4px solid #c8210a', padding: '4px 24px' }}>
-              {withoutPhoto(TOPSOIL).map((item, i) => (
-                <TextPriceRow key={item.name} name={item.name} note={item.note} price={item.price} index={i} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        <div style={{ height: 1, background: '#2a2a2a', marginBottom: 80 }} />
-
-        {/* ── MULCH ───────────────────────────────────────────────────── */}
-        <section style={{ marginBottom: 80 }}>
-          <SectionHeader label="Landscaping" title="Mulch" />
-          <MoodStrip src="IMG_1377.jpg" alt="John Deere 644K loader at Gridley yard" position="center 40%" />
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-            gap: 12,
-          }}>
-            {MULCH.map((item, i) => (
-              <ProductCard key={item.name} name={item.name} price={item.price} img={item.img} index={i} />
-            ))}
-          </div>
-        </section>
-
-        <div style={{ height: 1, background: '#2a2a2a', margin: '0 0 80px' }} />
+        )}
 
         {/* ── DELIVERY ────────────────────────────────────────────────── */}
         <section style={{ marginBottom: 64 }}>
@@ -330,7 +429,7 @@ export default function Products() {
               <span className="material-icons" style={{ fontSize: 16 }}>phone</span> {PHONE}
             </a>
             <a
-              href={`${base}GridleyExcavatingPriceSheet.pdf`}
+              href={`${base}${isRetail ? 'RetailPriceSheet.pdf' : 'ContractorPriceSheet.pdf'}`}
               download
               style={{
                 textDecoration: 'none', padding: '12px 24px',
@@ -342,7 +441,7 @@ export default function Products() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(200,33,10,0.5)'; e.currentTarget.style.color = '#c8210a' }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = '#3c3c3c'; e.currentTarget.style.color = '#f0ebe3' }}
             >
-              <span className="material-icons-outlined" style={{ fontSize: 16 }}>download</span>Download Price Sheet (PDF)
+              <span className="material-icons-outlined" style={{ fontSize: 16 }}>download</span>Download {activeTier.label} Price Sheet (PDF)
             </a>
           </div>
         </motion.div>

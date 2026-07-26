@@ -32,7 +32,7 @@ const productCategories = [
   {
     title: 'Gravel & Stone',
     desc: 'We carry everything from Item #4 for driveways to fine crushed stone for drainage. Not sure which one you need?',
-    highlight: 'Most products $30/yard',
+    highlight: 'From $27.78/yard',
     img: 'IMG_1348.jpg',
     position: 'center 35%',
   },
