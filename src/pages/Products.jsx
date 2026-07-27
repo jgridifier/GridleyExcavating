@@ -137,47 +137,74 @@ function PriceGroup({ title, items, index = 0 }) {
   )
 }
 
-function TierToggle({ tier, setTier }) {
+function StickyTierBar({ tier, setTier }) {
   return (
-    <motion.div {...fadeUp()} style={{ marginBottom: 40 }}>
-      <p style={{ fontSize: 13, color: '#aaa', marginBottom: 12 }}>Which pricing applies to you?</p>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: 12,
+    <div style={{
+      position: 'sticky', top: 68, zIndex: 90,
+      background: 'rgba(22,22,22,0.97)',
+      backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+      borderBottom: '1px solid #2a2a2a',
+    }}>
+      <div className="sticky-tier-row" style={{
+        maxWidth: 1200, margin: '0 auto', padding: '14px 24px',
+        display: 'flex', alignItems: 'center', gap: 16,
       }}>
-        {PRICING_TIERS.map(t => {
-          const active = t.key === tier
-          return (
-            <button
-              key={t.key}
-              onClick={() => setTier(t.key)}
-              style={{
-                cursor: 'pointer',
-                textAlign: 'left',
-                background: active ? 'rgba(200,33,10,0.12)' : '#1e1e1e',
-                border: 'none',
-                borderLeft: active ? '4px solid #c8210a' : '4px solid #3c3c3c',
-                padding: '18px 20px',
-                transition: 'background 0.2s, border-color 0.2s',
-              }}
-              onMouseEnter={e => { if (!active) e.currentTarget.style.borderColor = '#888' }}
-              onMouseLeave={e => { if (!active) e.currentTarget.style.borderColor = '#3c3c3c' }}
-            >
-              <div style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: 22, fontWeight: 900, lineHeight: 1,
-                color: active ? '#f0ebe3' : '#888',
-                textTransform: 'uppercase', marginBottom: 4,
-              }}>
-                {t.label} <span style={{ color: active ? '#c8210a' : '#666' }}>· {t.sublabel}</span>
-              </div>
-              <div style={{ fontSize: 13, color: active ? '#d0cbc3' : '#666' }}>{t.audience}</div>
-            </button>
-          )
-        })}
+        <span style={{
+          fontSize: 11, color: '#888', fontWeight: 700,
+          textTransform: 'uppercase', letterSpacing: '2px', flexShrink: 0,
+        }}>
+          Pricing For
+        </span>
+        <div className="sticky-tier-group" style={{
+          display: 'flex', background: '#1e1e1e',
+          border: '1px solid #3c3c3c', borderRadius: 999, padding: 3, gap: 2,
+        }}>
+          {PRICING_TIERS.map(t => {
+            const active = t.key === tier
+            return (
+              <button
+                key={t.key}
+                onClick={() => setTier(t.key)}
+                className="sticky-tier-btn"
+                style={{
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  border: 'none',
+                  borderRadius: 999,
+                  padding: '8px 18px',
+                  background: active ? '#c8210a' : 'transparent',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.background = '#2a2a2a' }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent' }}
+              >
+                <div style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: 15, fontWeight: 800, lineHeight: 1.2,
+                  color: active ? '#fff' : '#d0cbc3',
+                  textTransform: 'uppercase', letterSpacing: '0.5px',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {t.label} <span style={{ opacity: active ? 0.85 : 0.55, fontWeight: 600 }}>· {t.sublabel}</span>
+                </div>
+                <div style={{ fontSize: 11, color: active ? 'rgba(255,255,255,0.75)' : '#777', whiteSpace: 'nowrap' }}>
+                  {t.audience}
+                </div>
+              </button>
+            )
+          })}
+        </div>
       </div>
-    </motion.div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .sticky-tier-row { flex-direction: column; align-items: stretch !important; gap: 8px !important; padding: 12px 16px !important; }
+          .sticky-tier-group { width: 100%; }
+          .sticky-tier-btn { flex: 1 1 0; text-align: center !important; padding: 8px 8px !important; }
+          .sticky-tier-btn div { white-space: normal !important; }
+        }
+      `}</style>
+    </div>
   )
 }
 
@@ -254,10 +281,10 @@ export default function Products() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 24px' }}>
+      {/* Sticky tier toggle — pinned below navbar as the page scrolls */}
+      <StickyTierBar tier={tier} setTier={setTier} />
 
-        {/* Tier toggle */}
-        <TierToggle tier={tier} setTier={setTier} />
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px 64px' }}>
 
         {/* Alert banner */}
         <AnimatePresence mode="wait">
