@@ -157,7 +157,7 @@ function StickyTierBar({ tier, setTier }) {
         </span>
         <div className="sticky-tier-group" style={{
           display: 'flex', background: '#1e1e1e',
-          border: '1px solid #3c3c3c', borderRadius: 999, padding: 3, gap: 2,
+          border: '1px solid #3c3c3c', borderRadius: 12, padding: 4, gap: 4,
         }}>
           {PRICING_TIERS.map(t => {
             const active = t.key === tier
@@ -168,10 +168,10 @@ function StickyTierBar({ tier, setTier }) {
                 className="sticky-tier-btn"
                 style={{
                   cursor: 'pointer',
-                  textAlign: 'left',
+                  textAlign: 'center',
                   border: 'none',
-                  borderRadius: 999,
-                  padding: '8px 18px',
+                  borderRadius: 8,
+                  padding: '8px 20px',
                   background: active ? '#c8210a' : 'transparent',
                   transition: 'background 0.2s, color 0.2s',
                 }}
@@ -180,14 +180,24 @@ function StickyTierBar({ tier, setTier }) {
               >
                 <div style={{
                   fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: 15, fontWeight: 800, lineHeight: 1.2,
+                  fontSize: 15, fontWeight: 800, lineHeight: 1.3,
                   color: active ? '#fff' : '#d0cbc3',
                   textTransform: 'uppercase', letterSpacing: '0.5px',
                   whiteSpace: 'nowrap',
                 }}>
-                  {t.label} <span style={{ opacity: active ? 0.85 : 0.55, fontWeight: 600 }}>· {t.sublabel}</span>
+                  {t.label}
                 </div>
-                <div style={{ fontSize: 11, color: active ? 'rgba(255,255,255,0.75)' : '#777', whiteSpace: 'nowrap' }}>
+                <div style={{
+                  fontSize: 11, fontWeight: 600, lineHeight: 1.3,
+                  color: active ? 'rgba(255,255,255,0.85)' : '#888',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {t.sublabel}
+                </div>
+                <div style={{
+                  fontSize: 10, lineHeight: 1.3, marginTop: 1,
+                  color: active ? 'rgba(255,255,255,0.6)' : '#666',
+                }}>
                   {t.audience}
                 </div>
               </button>
@@ -198,10 +208,9 @@ function StickyTierBar({ tier, setTier }) {
 
       <style>{`
         @media (max-width: 640px) {
-          .sticky-tier-row { flex-direction: column; align-items: stretch !important; gap: 8px !important; padding: 12px 16px !important; }
+          .sticky-tier-row { flex-direction: column; align-items: stretch !important; gap: 6px !important; padding: 10px 16px !important; }
           .sticky-tier-group { width: 100%; }
-          .sticky-tier-btn { flex: 1 1 0; text-align: center !important; padding: 8px 8px !important; }
-          .sticky-tier-btn div { white-space: normal !important; }
+          .sticky-tier-btn { flex: 1 1 0; padding: 7px 8px !important; }
         }
       `}</style>
     </div>
