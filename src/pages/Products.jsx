@@ -274,7 +274,7 @@ export default function Products() {
               marginBottom: 72,
               display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
             }}>
-            <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>info</span>
+            <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>help_outline</span>
             <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
               <strong style={{ color: '#f0ebe3' }}>{activeTier.minNote}</strong> · Open accounts available with approved credit application · Net 30 payment terms
             </p>
