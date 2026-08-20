@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { ADDRESS, ADDRESS_MAP } from '../data/products'
+import { ADDRESS, ADDRESS_MAP, HOURS, isSaturdayClosedForSeason, SATURDAY_CLOSURE_DATE } from '../data/products'
+import { HEADER_HEIGHT } from '../components/Navbar'
 
 const base = import.meta.env.BASE_URL
 
@@ -14,7 +15,7 @@ function fadeUp(delay = 0) {
 
 export default function Hours() {
   return (
-    <main style={{ paddingTop: 68 }}>
+    <main style={{ paddingTop: HEADER_HEIGHT }}>
 
       {/* Hero */}
       <div style={{ position: 'relative', height: 300, overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
@@ -44,8 +45,27 @@ export default function Hours() {
         </div>
       </div>
 
+      {/* Seasonal Saturday closure callout */}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px 0' }}>
+        <motion.div {...fadeUp()} style={{
+          background: 'rgba(200,33,10,0.08)',
+          borderLeft: '4px solid #c8210a',
+          padding: '16px 24px',
+          display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+        }}>
+          <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>campaign</span>
+          <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
+            {isSaturdayClosedForSeason() ? (
+              <><strong style={{ color: '#f0ebe3' }}>We're closed on Saturdays for the season.</strong> Stop by Monday–Friday, 7:00 AM–4:00 PM.</>
+            ) : (
+              <><strong style={{ color: '#f0ebe3' }}>Heads up:</strong> starting {SATURDAY_CLOSURE_DATE}, we'll be closed on Saturdays for the season.</>
+            )}
+          </p>
+        </motion.div>
+      </div>
+
       {/* Main content — info left, photo right */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 24px 0' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px 0' }}>
         <div className="hours-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 24, alignItems: 'stretch' }}>
 
           {/* Left: stacked info */}
@@ -61,27 +81,23 @@ export default function Hours() {
               }}>
                 <span className="material-icons-outlined" style={{ fontSize: 22, color: '#c8210a' }}>schedule</span> Hours
               </h2>
-              {[
-                { days: 'Monday – Friday', hours: '7:00 AM – 4:00 PM', open: true },
-                { days: 'Saturday', hours: '7:00 AM – 12:00 PM', open: true, note: 'Seasonal' },
-                { days: 'Sunday', hours: 'Closed', open: false },
-              ].map((row, i) => (
-                <div key={row.days} style={{
+              {HOURS.map((row, i) => (
+                <div key={row.day} style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   padding: '14px 0',
-                  borderBottom: i < 2 ? '1px solid #2a2a2a' : 'none',
+                  borderBottom: i < HOURS.length - 1 ? '1px solid #2a2a2a' : 'none',
                   gap: 16,
                 }}>
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: '#f0ebe3' }}>{row.days}</div>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: '#f0ebe3' }}>{row.day}</div>
                     {row.note && <div style={{ fontSize: 11, color: '#888', marginTop: 2, letterSpacing: '0.5px' }}>{row.note}</div>}
                   </div>
                   <div style={{
                     fontSize: 16, fontWeight: 700,
-                    color: row.open ? '#c8210a' : '#555',
+                    color: row.time === 'Closed' ? '#555' : '#c8210a',
                     fontFamily: "'Barlow Condensed', sans-serif",
                     letterSpacing: '0.5px', whiteSpace: 'nowrap',
-                  }}>{row.hours}</div>
+                  }}>{row.time}</div>
                 </div>
               ))}
             </motion.div>

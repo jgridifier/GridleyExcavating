@@ -2,9 +2,23 @@ export const PHONE = '(607) 962-0520'
 export const PHONE_HREF = 'tel:+16079620520'
 export const ADDRESS = '11244 River Road, Corning, NY 14830'
 export const ADDRESS_MAP = 'https://maps.google.com/?q=11244+River+Road+Corning+NY+14830'
+// Saturdays close for the season starting 8/29 — this flips automatically
+// once that date arrives, so the site doesn't need a manual update.
+const SATURDAY_CLOSURE_CUTOFF = '2026-08-29'
+export const SATURDAY_CLOSURE_DATE = 'Saturday, August 29th'
+export function isSaturdayClosedForSeason(date = new Date()) {
+  return date.toLocaleDateString('en-CA') >= SATURDAY_CLOSURE_CUTOFF
+}
+
+const saturdayClosed = isSaturdayClosedForSeason()
+
+export const SATURDAY_HOURS = saturdayClosed
+  ? { day: 'Saturday', time: 'Closed', note: 'Closed for the season' }
+  : { day: 'Saturday', time: '7:00 AM – 12:00 PM', note: `Closing for the season ${SATURDAY_CLOSURE_DATE}` }
+
 export const HOURS = [
   { day: 'Monday – Friday', time: '7:00 AM – 4:00 PM' },
-  { day: 'Saturday', time: '7:00 AM – 12:00 PM', note: 'Seasonal' },
+  SATURDAY_HOURS,
   { day: 'Sunday', time: 'Closed' },
 ]
 

@@ -9,6 +9,7 @@ import {
   DELIVERY, DELIVERY_NOTE,
   PHONE_HREF, PHONE,
 } from '../data/products'
+import { HEADER_HEIGHT } from '../components/Navbar'
 
 const base = import.meta.env.BASE_URL
 
@@ -140,7 +141,7 @@ function PriceGroup({ title, items, index = 0 }) {
 function StickyTierBar({ tier, setTier }) {
   return (
     <div style={{
-      position: 'sticky', top: 68, zIndex: 90,
+      position: 'sticky', top: HEADER_HEIGHT, zIndex: 90,
       background: 'rgba(22,22,22,0.97)',
       backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
       borderBottom: '1px solid #2a2a2a',
@@ -252,7 +253,7 @@ export default function Products() {
   const specialty = isRetail ? RETAIL_SPECIALTY : CONTRACTOR_SPECIALTY
 
   return (
-    <main style={{ paddingTop: 68 }}>
+    <main style={{ paddingTop: HEADER_HEIGHT }}>
 
       {/* Hero banner */}
       <div style={{ position: 'relative', height: 260, overflow: 'hidden', display: 'flex', alignItems: 'center' }}>

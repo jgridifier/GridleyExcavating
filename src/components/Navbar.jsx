@@ -1,13 +1,40 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PHONE, PHONE_HREF } from '../data/products'
+import { PHONE, PHONE_HREF, isSaturdayClosedForSeason, SATURDAY_CLOSURE_DATE } from '../data/products'
 
 const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'Products', to: '/products' },
   { label: 'Hours', to: '/hours' },
 ]
+
+export const NAV_HEIGHT = 68
+export const BANNER_HEIGHT = 34
+export const HEADER_HEIGHT = NAV_HEIGHT + BANNER_HEIGHT
+
+function AnnouncementBanner() {
+  return (
+    <Link to="/hours" style={{ display: 'block', textDecoration: 'none', background: '#c8210a' }}>
+      <div style={{
+        maxWidth: 1200, margin: '0 auto', padding: '8px 24px',
+        height: BANNER_HEIGHT, boxSizing: 'border-box',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+      }}>
+        <span className="material-icons-outlined" style={{ fontSize: 15, color: '#fff', flexShrink: 0 }}>campaign</span>
+        <span style={{
+          fontSize: 12.5, fontWeight: 600, color: '#fff',
+          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          letterSpacing: '0.2px', minWidth: 0,
+        }}>
+          {isSaturdayClosedForSeason()
+            ? "Closed on Saturdays for the season"
+            : `Closed Saturdays starting ${SATURDAY_CLOSURE_DATE} — for the season`}
+        </span>
+      </div>
+    </Link>
+  )
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -38,11 +65,12 @@ export default function Navbar() {
           borderBottom: scrolled ? '1px solid #3c3c3c' : '1px solid transparent',
         }}
       >
+        <AnnouncementBanner />
         <div style={{
           maxWidth: 1200,
           margin: '0 auto',
           padding: '0 24px',
-          height: 68,
+          height: NAV_HEIGHT,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -147,7 +175,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             style={{
-              position: 'fixed', top: 68, left: 0, right: 0, zIndex: 99,
+              position: 'fixed', top: HEADER_HEIGHT, left: 0, right: 0, zIndex: 99,
               background: 'rgba(22,22,22,0.97)',
               backdropFilter: 'blur(12px)',
               borderBottom: '1px solid #3c3c3c',
