@@ -55,11 +55,10 @@ export default function Hours() {
         }}>
           <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>campaign</span>
           <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
-            {isSaturdayClosedForSeason() ? (
-              <><strong style={{ color: '#f0ebe3' }}>We're closed on Saturdays for the season.</strong> Stop by Monday–Friday, 7:00 AM–4:00 PM.</>
-            ) : (
-              <><strong style={{ color: '#f0ebe3' }}>Heads up:</strong> starting {SATURDAY_CLOSURE_DATE}, we'll be closed on Saturdays for the season.</>
-            )}
+            <strong style={{ color: '#f0ebe3' }}>Fall Hours —</strong>{' '}
+            {isSaturdayClosedForSeason()
+              ? "Closed on Saturdays for the season. Stop by Monday–Friday, 7:00 AM–4:00 PM."
+              : `Closed on Saturdays starting ${SATURDAY_CLOSURE_DATE}.`}
           </p>
         </motion.div>
       </div>

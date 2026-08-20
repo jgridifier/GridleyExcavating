@@ -6,6 +6,7 @@ export const ADDRESS_MAP = 'https://maps.google.com/?q=11244+River+Road+Corning+
 // once that date arrives, so the site doesn't need a manual update.
 const SATURDAY_CLOSURE_CUTOFF = '2026-08-29'
 export const SATURDAY_CLOSURE_DATE = 'Saturday, August 29th'
+export const SATURDAY_CLOSURE_SHORT = '8/29'
 export function isSaturdayClosedForSeason(date = new Date()) {
   return date.toLocaleDateString('en-CA') >= SATURDAY_CLOSURE_CUTOFF
 }

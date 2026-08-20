@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PHONE, PHONE_HREF, isSaturdayClosedForSeason, SATURDAY_CLOSURE_DATE } from '../data/products'
+import { PHONE, PHONE_HREF, isSaturdayClosedForSeason, SATURDAY_CLOSURE_SHORT } from '../data/products'
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -23,13 +23,15 @@ function AnnouncementBanner() {
       }}>
         <span className="material-icons-outlined" style={{ fontSize: 15, color: '#fff', flexShrink: 0 }}>campaign</span>
         <span style={{
-          fontSize: 12.5, fontWeight: 600, color: '#fff',
+          fontSize: 12.5, fontWeight: 500, color: '#fff',
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
           letterSpacing: '0.2px', minWidth: 0,
         }}>
+          <strong style={{ fontWeight: 800 }}>Fall Hours</strong>
+          {' — '}
           {isSaturdayClosedForSeason()
-            ? "Closed on Saturdays for the season"
-            : `Closed Saturdays starting ${SATURDAY_CLOSURE_DATE} — for the season`}
+            ? 'Closed on Saturdays for the season'
+            : `Closed Saturdays starting ${SATURDAY_CLOSURE_SHORT}`}
         </span>
       </div>
     </Link>
