@@ -57,8 +57,8 @@ export default function Hours() {
           <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
             <strong style={{ color: '#f0ebe3' }}>Fall Hours —</strong>{' '}
             {isSaturdayClosedForSeason()
-              ? "Closed on Saturdays for the season. Stop by Monday–Friday, 7:00 AM–4:00 PM."
-              : `Closed on Saturdays starting ${SATURDAY_CLOSURE_DATE}.`}
+              ? "Closed on Saturdays for the fall and winter season. Stop by Monday–Friday, 7:00 AM–4:00 PM."
+              : `Closed on Saturdays for the fall and winter season, starting ${SATURDAY_CLOSURE_DATE}.`}
           </p>
         </motion.div>
       </div>

@@ -30,8 +30,8 @@ function AnnouncementBanner() {
           <strong style={{ fontWeight: 800 }}>Fall Hours</strong>
           {' — '}
           {isSaturdayClosedForSeason()
-            ? 'Closed on Saturdays for the season'
-            : `Closed Saturdays starting ${SATURDAY_CLOSURE_SHORT}`}
+            ? 'Closed on Saturdays for the fall and winter season'
+            : `Closed on Saturdays for the fall and winter season, starting ${SATURDAY_CLOSURE_SHORT}`}
         </span>
       </div>
     </Link>
