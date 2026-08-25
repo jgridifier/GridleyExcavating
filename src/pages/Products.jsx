@@ -7,6 +7,8 @@ import {
   CONTRACTOR_CRUSHED_STONE, CONTRACTOR_ROUND_STONE, CONTRACTOR_SAND_GRAVEL, CONTRACTOR_SPECIALTY,
   CONTRACTOR_YARD_ONLY_NOTE,
   DELIVERY, DELIVERY_NOTE,
+  RETAIL_PRICE_SHEET_PDF, CONTRACTOR_PRICE_SHEET_PDF,
+  PRICE_SHEET_UPDATED,
   PHONE_HREF, PHONE,
 } from '../data/products'
 import { HEADER_HEIGHT } from '../components/Navbar'
@@ -286,7 +288,7 @@ export default function Products() {
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', marginTop: 10 }}
           >
-            Updated 07/26/2026 · Plus applicable tax
+            Updated {PRICE_SHEET_UPDATED} · Plus applicable tax
           </motion.p>
         </div>
       </div>
@@ -466,7 +468,7 @@ export default function Products() {
               <span className="material-icons" style={{ fontSize: 16 }}>phone</span> {PHONE}
             </a>
             <a
-              href={`${base}${isRetail ? 'RetailPriceSheet.pdf' : 'ContractorPriceSheet.pdf'}`}
+              href={`${base}${isRetail ? RETAIL_PRICE_SHEET_PDF : CONTRACTOR_PRICE_SHEET_PDF}`}
               download
               style={{
                 textDecoration: 'none', padding: '12px 24px',

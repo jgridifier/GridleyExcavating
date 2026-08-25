@@ -23,6 +23,15 @@ export const HOURS = [
   { day: 'Sunday', time: 'Closed' },
 ]
 
+// Prices change 9/1 — this flips automatically once that date arrives,
+// same mechanism as the Saturday closure above.
+const PRICE_CHANGE_CUTOFF = '2026-09-01'
+export function isNewPricingActive(date = new Date()) {
+  return date.toLocaleDateString('en-CA') >= PRICE_CHANGE_CUTOFF
+}
+const newPricing = isNewPricingActive()
+export const PRICE_SHEET_UPDATED = newPricing ? '09/01/2026' : '07/26/2026'
+
 // ── PRICING TIERS ──────────────────────────────────────────────────────
 // Two separate real-world price sheets: retail customers buy "Up Top" by
 // the yard, contractors buy at the pit by the ton (5-ton minimum).
@@ -32,7 +41,7 @@ export const PRICING_TIERS = [
     label: 'Retail',
     sublabel: 'By the Yard',
     audience: 'Homeowners & Landscapers',
-    minNote: '$30 Minimum Load Charge · Plus Tax',
+    minNote: `${newPricing ? '$40' : '$30'} Minimum Load Charge · Plus Tax`,
   },
   {
     key: 'contractor',
@@ -44,50 +53,92 @@ export const PRICING_TIERS = [
 ]
 
 // ── RETAIL (Up Top — sold by the yard) ─────────────────────────────────
-export const RETAIL_SOIL = [
+const RETAIL_SOIL_CURRENT = [
   { name: 'Shed Topsoil', note: "Kept dry for the rainy days", price: '$41.76/yard', img: 'IMG_1337.jpg' },
   { name: 'Screened Topsoil', price: '$27.78/yard', img: 'IMG_0268.jpeg', imgPosition: 'center 25%' },
   { name: 'Garden Soil', price: '$50.95/yard' },
   { name: 'Unscreened Topsoil', price: '$12.00/yard' },
   { name: 'Overburden', price: '$9.00/yard' },
 ]
+const RETAIL_SOIL_SEPT2026 = [
+  { name: 'Shed Topsoil', note: "Kept dry for the rainy days", price: '$41.76/yard', img: 'IMG_1337.jpg' },
+  { name: 'Screened Topsoil', price: '$37.41/yard', img: 'IMG_0268.jpeg', imgPosition: 'center 25%' },
+  { name: 'Garden Soil', price: '$50.95/yard' },
+  { name: 'Unscreened Topsoil', price: '$15.00/yard' },
+  { name: 'Overburden', price: '$12.00/yard' },
+]
+export const RETAIL_SOIL = newPricing ? RETAIL_SOIL_SEPT2026 : RETAIL_SOIL_CURRENT
 
-export const RETAIL_MULCH = [
+const RETAIL_MULCH_CURRENT = [
   { name: 'Double Ground Hardwood (Brown/Natural)', price: '$27.78/yard', img: 'IMG_1331.jpg' },
   { name: 'Double Ground Hardwood (Black)', price: '$32.41/yard', img: 'IMG_1333.jpg' },
   { name: 'Double Ground Hardwood (Red)', price: '$32.41/yard', img: 'IMG_1329.jpg' },
   { name: 'Playground Mulch', price: '$32.41/yard', img: 'IMG_1335.jpg' },
 ]
+const RETAIL_MULCH_SEPT2026 = [
+  { name: 'Double Ground Hardwood (Brown/Natural)', price: '$41.76/yard', img: 'IMG_1331.jpg' },
+  { name: 'Double Ground Hardwood (Black)', price: '$41.76/yard', img: 'IMG_1333.jpg' },
+  { name: 'Double Ground Hardwood (Red)', price: '$41.76/yard', img: 'IMG_1329.jpg' },
+  { name: 'Playground Mulch', price: '$41.76/yard', img: 'IMG_1335.jpg' },
+]
+export const RETAIL_MULCH = newPricing ? RETAIL_MULCH_SEPT2026 : RETAIL_MULCH_CURRENT
 
-export const RETAIL_CRUSHED_STONE = [
+const RETAIL_CRUSHED_STONE_CURRENT = [
   { name: '#1ST Crushed Stone (¼" to ½")', price: '$37.41/yard' },
   { name: '#1 Crushed Stone (½" to ¾")', price: '$27.78/yard', img: 'IMG_1351.jpg' },
   { name: '#2 Crushed Stone (¾" to 1¾")', price: '$27.78/yard', img: 'IMG_1353.jpg' },
   { name: '#57 Crushed Stone (#1 & #2 mix)', price: '$27.78/yard', img: 'IMG_1349.jpg' },
 ]
+const RETAIL_CRUSHED_STONE_SEPT2026 = [
+  { name: '#1ST Crushed Stone (¼" to ½")', price: '$46.31/yard' },
+  { name: '#1 Crushed Stone (½" to ¾")', price: '$37.41/yard', img: 'IMG_1351.jpg' },
+  { name: '#2 Crushed Stone (¾" to 1¾")', price: '$37.41/yard', img: 'IMG_1353.jpg' },
+  { name: '#57 Crushed Stone (#1 & #2 mix)', price: '$37.41/yard', img: 'IMG_1349.jpg' },
+]
+export const RETAIL_CRUSHED_STONE = newPricing ? RETAIL_CRUSHED_STONE_SEPT2026 : RETAIL_CRUSHED_STONE_CURRENT
 
-export const RETAIL_ROUND_STONE = [
+const RETAIL_ROUND_STONE_CURRENT = [
   { name: '#1 Round Stone (¼" to ½")', price: '$27.78/yard' },
   { name: '#1 & #2 Round Stone Mix', price: '$37.41/yard' },
   { name: '#3 Round Stone (2" to 3½")', price: '$27.78/yard', img: 'IMG_1355.jpg' },
   { name: 'Bones (3"–5")', price: '$37.41/yard' },
 ]
+const RETAIL_ROUND_STONE_SEPT2026 = [
+  { name: '#1 Round Stone (¼" to ½")', price: '$37.41/yard' },
+  { name: '#1 & #2 Round Stone Mix', price: '$37.41/yard' },
+  { name: '#3 Round Stone (2" to 3½")', price: '$37.41/yard', img: 'IMG_1355.jpg' },
+  { name: 'Bones (5" plus)', price: '$46.31/yard' },
+]
+export const RETAIL_ROUND_STONE = newPricing ? RETAIL_ROUND_STONE_SEPT2026 : RETAIL_ROUND_STONE_CURRENT
 
-export const RETAIL_SAND_GRAVEL = [
+const RETAIL_SAND_GRAVEL_CURRENT = [
   { name: 'Bedding/Road Sand', price: '$27.78/yard', img: 'IMG_1341.jpg' },
   { name: 'Concrete Sand', price: '$37.41/yard' },
   { name: 'Item #4', price: '$27.78/yard' },
   { name: 'Brown Crusher Run', price: '$37.41/yard' },
 ]
+const RETAIL_SAND_GRAVEL_SEPT2026 = [
+  { name: 'Bedding/Road Sand', price: '$37.41/yard', img: 'IMG_1341.jpg' },
+  { name: 'Concrete Sand', price: '$46.31/yard' },
+  { name: 'Item #4', price: '$37.41/yard' },
+  { name: 'Brown Crusher Run', price: '$46.31/yard' },
+]
+export const RETAIL_SAND_GRAVEL = newPricing ? RETAIL_SAND_GRAVEL_SEPT2026 : RETAIL_SAND_GRAVEL_CURRENT
 
-export const RETAIL_SPECIALTY = [
+const RETAIL_SPECIALTY_CURRENT = [
   { name: 'Gray Crusher Run', price: '$67.50/yard', img: 'IMG_1347.jpg' },
   { name: '#1 Gray Stone', price: '$78.00/yard' },
   { name: 'Red Stone', price: '$175.00/yard' },
 ]
+const RETAIL_SPECIALTY_SEPT2026 = [
+  { name: 'Gray Crusher Run', price: '$77.50/yard', img: 'IMG_1347.jpg' },
+  { name: '#1 Gray Stone', price: '$88.00/yard' },
+  { name: 'Red Stone', price: '$175.00/yard' },
+]
+export const RETAIL_SPECIALTY = newPricing ? RETAIL_SPECIALTY_SEPT2026 : RETAIL_SPECIALTY_CURRENT
 
 // ── CONTRACTOR (Gravel Pit Down Below — sold by the ton, 5-ton minimum) ─
-export const CONTRACTOR_CRUSHED_STONE = [
+const CONTRACTOR_CRUSHED_STONE_CURRENT = [
   { name: '#1ST Crushed Stone (¼" to ½")', price: '$21.50/ton' },
   { name: '#1A Crushed Stone (⅛" to ¼")', price: '$19.50/ton' },
   { name: '#1 Crushed Stone (½" to ¾")', price: '$17.00/ton', img: 'IMG_1351.jpg' },
@@ -95,15 +146,31 @@ export const CONTRACTOR_CRUSHED_STONE = [
   { name: '#3 Crushed Stone', price: '$23.50/ton' },
   { name: '#57 Crushed Stone (#1 & #2 mix)', price: '$17.25/ton', img: 'IMG_1349.jpg' },
 ]
+const CONTRACTOR_CRUSHED_STONE_SEPT2026 = [
+  { name: '#1ST Crushed Stone (¼" to ½")', price: '$21.50/ton' },
+  { name: '#1A Crushed Stone (⅛" to ¼")', price: '$23.50/ton' },
+  { name: '#1 Crushed Stone (½" to ¾")', price: '$18.50/ton', img: 'IMG_1351.jpg' },
+  { name: '#2 Crushed Stone (¾" to 1¾")', price: '$18.50/ton', img: 'IMG_1353.jpg' },
+  { name: '#3 Crushed Stone', price: '$23.50/ton' },
+  { name: '#57 Crushed Stone (#1 & #2 mix)', price: '$18.50/ton', img: 'IMG_1349.jpg' },
+]
+export const CONTRACTOR_CRUSHED_STONE = newPricing ? CONTRACTOR_CRUSHED_STONE_SEPT2026 : CONTRACTOR_CRUSHED_STONE_CURRENT
 
-export const CONTRACTOR_ROUND_STONE = [
+const CONTRACTOR_ROUND_STONE_CURRENT = [
   { name: '#1 Round Stone (¼" to ½")', price: '$18.00/ton' },
   { name: '#1 & #2 Round Stone Mix (¼" to 1¼")', price: '$23.50/ton' },
   { name: '#3 Round Stone (1¼" to 2")', price: '$16.50/ton', img: 'IMG_1355.jpg' },
   { name: 'Bones (3"–5")', price: '$28.50/ton' },
 ]
+const CONTRACTOR_ROUND_STONE_SEPT2026 = [
+  { name: '#1 Round Stone (¼" to ½")', price: '$18.00/ton' },
+  { name: '#1 & #2 Round Stone Mix (¼" to 1¼")', price: '$23.50/ton' },
+  { name: '#3 Round Stone (1¼" to 2")', price: '$16.50/ton', img: 'IMG_1355.jpg' },
+  { name: 'Bones (5" plus)', price: '$28.50/ton' },
+]
+export const CONTRACTOR_ROUND_STONE = newPricing ? CONTRACTOR_ROUND_STONE_SEPT2026 : CONTRACTOR_ROUND_STONE_CURRENT
 
-export const CONTRACTOR_SAND_GRAVEL = [
+const CONTRACTOR_SAND_GRAVEL_CURRENT = [
   { name: 'Bedding/Road Sand', price: '$12.25/ton', img: 'IMG_1341.jpg' },
   { name: 'Concrete Sand', price: '$23.50/ton' },
   { name: 'Sand Filter Sand', note: 'Steuben, Chemung & Schuyler County Approved', price: '$24.00/ton' },
@@ -111,12 +178,36 @@ export const CONTRACTOR_SAND_GRAVEL = [
   { name: 'Brown Crusher Run', price: '$23.50/ton' },
   { name: 'Gray Crusher Run', price: '$45.00/ton', img: 'IMG_1347.jpg' },
 ]
+const CONTRACTOR_SAND_GRAVEL_SEPT2026 = [
+  { name: 'Bedding/Road Sand', price: '$13.25/ton', img: 'IMG_1341.jpg' },
+  { name: 'Concrete Sand', price: '$23.50/ton' },
+  { name: 'Sand Filter Sand', note: 'Steuben, Chemung & Schuyler County Approved', price: '$24.00/ton' },
+  { name: 'Item #4', price: '$12.25/ton' },
+  { name: 'Brown Crusher Run', price: '$23.50/ton' },
+  { name: 'Gray Crusher Run', price: '$55.00/ton', img: 'IMG_1347.jpg' },
+]
+export const CONTRACTOR_SAND_GRAVEL = newPricing ? CONTRACTOR_SAND_GRAVEL_SEPT2026 : CONTRACTOR_SAND_GRAVEL_CURRENT
 
-export const CONTRACTOR_SPECIALTY = [
+const CONTRACTOR_SPECIALTY_CURRENT = [
   { name: '#1 Gray Stone', price: '$60.00/ton' },
 ]
+const CONTRACTOR_SPECIALTY_SEPT2026 = [
+  { name: '#1 Gray Stone', price: '$70.00/ton' },
+]
+export const CONTRACTOR_SPECIALTY = newPricing ? CONTRACTOR_SPECIALTY_SEPT2026 : CONTRACTOR_SPECIALTY_CURRENT
 
 export const CONTRACTOR_YARD_ONLY_NOTE = 'Topsoil, mulch, and specialty stone are only sold by the yard — switch to Retail pricing above.'
+
+// Downloadable price sheet PDFs also switch on the same cutoff.
+export const RETAIL_PRICE_SHEET_PDF = newPricing ? 'RetailPriceSheet_Sept2026.pdf' : 'RetailPriceSheet.pdf'
+export const CONTRACTOR_PRICE_SHEET_PDF = newPricing ? 'ContractorPriceSheet_Sept2026.pdf' : 'ContractorPriceSheet.pdf'
+
+// "Starting from" teasers shown on the Home page — lowest retail/yard price in each category.
+export const HOME_PRICE_HIGHLIGHTS = {
+  gravel: newPricing ? 'From $37.41/yard' : 'From $27.78/yard',
+  topsoil: newPricing ? 'From $12.00/yard' : 'From $9.00/yard',
+  mulch: newPricing ? 'From $41.76/yard' : 'From $27.78/yard',
+}
 
 export const DELIVERY = [
   { size: '4–5 yards / up to 5 tons', price: '$95.00', trucks: 'Trucks 7 & 23' },

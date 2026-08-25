@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Gallery from '../components/Gallery'
-import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP } from '../data/products'
+import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, HOME_PRICE_HIGHLIGHTS } from '../data/products'
 
 const base = import.meta.env.BASE_URL
 
@@ -32,21 +32,21 @@ const productCategories = [
   {
     title: 'Gravel & Stone',
     desc: 'We carry everything from Item #4 for driveways to fine crushed stone for drainage. Not sure which one you need?',
-    highlight: 'From $27.78/yard',
+    highlight: HOME_PRICE_HIGHLIGHTS.gravel,
     img: 'IMG_1348.jpg',
     position: 'center 35%',
   },
   {
     title: 'Topsoil',
     desc: 'Screened topsoil for lawns and gardens, SHED topsoil, or straight overburden for fill.',
-    highlight: 'From $9.00/yard',
+    highlight: HOME_PRICE_HIGHLIGHTS.topsoil,
     img: 'IMG_1338.jpg',
     position: 'center 30%',
   },
   {
     title: 'Mulch',
     desc: 'Double ground hardwood in brown, black, or red, and playground-certified mulch.',
-    highlight: 'From $27.78/yard',
+    highlight: HOME_PRICE_HIGHLIGHTS.mulch,
     img: 'IMG_1332.jpg',
     position: 'center 40%',
   },
