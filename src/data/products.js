@@ -23,6 +23,13 @@ export const HOURS = [
   { day: 'Sunday', time: 'Closed' },
 ]
 
+// Home page "days a week" / hours-summary teasers — stay in sync with
+// the Saturday closure above instead of being hardcoded.
+export const OPEN_DAYS_PER_WEEK = saturdayClosed ? '5' : '6'
+export const HOURS_SUMMARY = saturdayClosed
+  ? 'Mon–Fri 7am–4pm'
+  : 'Mon–Fri 7am–4pm · Sat 7am–12pm (Seasonal)'
+
 // Prices change 9/1 — this flips automatically once that date arrives,
 // same mechanism as the Saturday closure above.
 const PRICE_CHANGE_CUTOFF = '2026-09-01'

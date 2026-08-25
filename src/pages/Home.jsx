@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Gallery from '../components/Gallery'
-import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, HOME_PRICE_HIGHLIGHTS } from '../data/products'
+import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, HOME_PRICE_HIGHLIGHTS, OPEN_DAYS_PER_WEEK, HOURS_SUMMARY } from '../data/products'
 
 const base = import.meta.env.BASE_URL
 
@@ -140,7 +140,7 @@ export default function Home() {
               lineHeight: 1.5,
             }}
           >
-            Located in South Corning, open 6 days a week.<br />
+            Located in South Corning, open {OPEN_DAYS_PER_WEEK} days a week.<br />
             Pickup and delivery throughout Steuben, Chemung &amp; Schuyler Counties.
           </motion.p>
 
@@ -221,7 +221,7 @@ export default function Home() {
             { value: '29', suffix: '', label: 'Years in Business' },
             { value: '20', suffix: '', label: 'Products Offered' },
             { value: '20', suffix: '+', label: 'Mile Delivery Radius' },
-            { value: '6', suffix: '', label: 'Days a Week' },
+            { value: OPEN_DAYS_PER_WEEK, suffix: '', label: 'Days a Week' },
           ].map((stat, i) => (
             <motion.div key={i} {...fadeUp(i * 0.1)}>
               <div style={{
@@ -435,7 +435,7 @@ export default function Home() {
               {PHONE}
             </a>
             <p style={{ fontSize: 15, color: '#aaa', marginBottom: 6 }}>
-              Mon–Fri 7am–4pm · Sat 7am–12pm (Seasonal)
+              {HOURS_SUMMARY}
             </p>
             <a
               href={ADDRESS_MAP}
