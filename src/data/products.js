@@ -14,8 +14,8 @@ export function isSaturdayClosedForSeason(date = new Date()) {
 const saturdayClosed = isSaturdayClosedForSeason()
 
 export const SATURDAY_HOURS = saturdayClosed
-  ? { day: 'Saturday', time: 'Closed', note: 'Closed for the season' }
-  : { day: 'Saturday', time: '7:00 AM – 12:00 PM', note: `Closing for the season ${SATURDAY_CLOSURE_DATE}` }
+  ? { day: 'Saturday', time: 'Closed', note: 'Closed on Saturdays for the season' }
+  : { day: 'Saturday', time: '7:00 AM – 12:00 PM', note: `Closed on Saturdays going forward, starting ${SATURDAY_CLOSURE_SHORT}` }
 
 export const HOURS = [
   { day: 'Monday – Friday', time: '7:00 AM – 4:00 PM' },
