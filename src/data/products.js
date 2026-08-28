@@ -68,7 +68,7 @@ const RETAIL_SOIL_CURRENT = [
   { name: 'Overburden', price: '$9.00/yard' },
 ]
 const RETAIL_SOIL_SEPT2026 = [
-  { name: 'Shed Topsoil', note: "Kept dry for the rainy days", price: '$41.76/yard', img: 'IMG_1337.jpg' },
+  { name: 'Shed Topsoil', note: "Kept dry for the rainy days", price: '$50.95/yard', img: 'IMG_1337.jpg' },
   { name: 'Screened Topsoil', price: '$37.41/yard', img: 'IMG_0268.jpeg', imgPosition: 'center 25%' },
   { name: 'Garden Soil', price: '$50.95/yard' },
   { name: 'Unscreened Topsoil', price: '$15.00/yard' },
@@ -170,9 +170,9 @@ const CONTRACTOR_ROUND_STONE_CURRENT = [
   { name: 'Bones (3"–5")', price: '$28.50/ton' },
 ]
 const CONTRACTOR_ROUND_STONE_SEPT2026 = [
-  { name: '#1 Round Stone (¼" to ½")', price: '$18.00/ton' },
+  { name: '#1 Round Stone (¼" to ½")', price: '$23.50/ton' },
   { name: '#1 & #2 Round Stone Mix (¼" to 1¼")', price: '$23.50/ton' },
-  { name: '#3 Round Stone (1¼" to 2")', price: '$16.50/ton', img: 'IMG_1355.jpg' },
+  { name: '#3 Round Stone (1¼" to 2")', price: '$23.50/ton', img: 'IMG_1355.jpg' },
   { name: 'Bones (5" plus)', price: '$28.50/ton' },
 ]
 export const CONTRACTOR_ROUND_STONE = newPricing ? CONTRACTOR_ROUND_STONE_SEPT2026 : CONTRACTOR_ROUND_STONE_CURRENT
