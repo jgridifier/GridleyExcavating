@@ -18,7 +18,7 @@ export const SATURDAY_HOURS = saturdayClosed
   : { day: 'Saturday', time: '7:00 AM – 12:00 PM', note: `We'll be closed on Saturdays starting ${SATURDAY_CLOSURE_SHORT}, through the fall and winter season` }
 
 export const HOURS = [
-  { day: 'Monday – Friday', time: '7:00 AM – 4:00 PM' },
+  { day: 'Monday – Friday', time: '7:00 AM – 3:00 PM' },
   SATURDAY_HOURS,
   { day: 'Sunday', time: 'Closed' },
 ]
@@ -27,8 +27,8 @@ export const HOURS = [
 // the Saturday closure above instead of being hardcoded.
 export const OPEN_DAYS_PER_WEEK = saturdayClosed ? '5' : '6'
 export const HOURS_SUMMARY = saturdayClosed
-  ? 'Mon–Fri 7am–4pm'
-  : 'Mon–Fri 7am–4pm · Sat 7am–12pm (Seasonal)'
+  ? 'Mon–Fri 7am–3pm'
+  : 'Mon–Fri 7am–3pm · Sat 7am–12pm (Seasonal)'
 
 // Prices change 9/1 — this flips automatically once that date arrives,
 // same mechanism as the Saturday closure above.
