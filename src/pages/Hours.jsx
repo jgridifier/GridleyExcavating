@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ADDRESS, ADDRESS_MAP, HOURS, isSaturdayClosedForSeason, SATURDAY_CLOSURE_DATE } from '../data/products'
+import { ADDRESS, ADDRESS_MAP, HOURS, HOURS_TAGLINE, SEASON_ANNOUNCEMENT, PHONE, PHONE_HREF } from '../data/products'
 import { HEADER_HEIGHT } from '../components/Navbar'
 
 const base = import.meta.env.BASE_URL
@@ -39,13 +39,13 @@ export default function Hours() {
               textTransform: 'uppercase', lineHeight: 1, marginBottom: 12,
             }}>Hours &amp; Location</h1>
             <p style={{ fontSize: 15, color: 'rgba(240,235,227,0.75)' }}>
-              Stop by during business hours or give us a call first — either way works for us.
+              {HOURS_TAGLINE}
             </p>
           </motion.div>
         </div>
       </div>
 
-      {/* Seasonal Saturday closure callout */}
+      {/* Seasonal hours callout */}
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '32px 24px 0' }}>
         <motion.div {...fadeUp()} style={{
           background: 'rgba(200,33,10,0.08)',
@@ -55,10 +55,11 @@ export default function Hours() {
         }}>
           <span className="material-icons-outlined" style={{ fontSize: 20, color: '#c8210a', flexShrink: 0 }}>campaign</span>
           <p style={{ fontSize: 14, color: '#d0cbc3', flex: 1, lineHeight: 1.5 }}>
-            <strong style={{ color: '#f0ebe3' }}>Fall Hours —</strong>{' '}
-            {isSaturdayClosedForSeason()
-              ? `We're closed on Saturdays through the fall and winter season. Stop by Monday–Friday, ${HOURS[0].time}.`
-              : `We'll be closed on Saturdays starting ${SATURDAY_CLOSURE_DATE}, through the fall and winter season.`}
+            <strong style={{ color: '#f0ebe3' }}>{SEASON_ANNOUNCEMENT.label} —</strong>{' '}
+            {SEASON_ANNOUNCEMENT.callout}{' '}
+            <a href={PHONE_HREF} style={{ color: '#f0ebe3', fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+              Call {PHONE}
+            </a>
           </p>
         </motion.div>
       </div>
@@ -93,7 +94,7 @@ export default function Hours() {
                   </div>
                   <div style={{
                     fontSize: 16, fontWeight: 700,
-                    color: row.time === 'Closed' ? '#555' : '#c8210a',
+                    color: row.closed ? '#555' : '#c8210a',
                     fontFamily: "'Barlow Condensed', sans-serif",
                     letterSpacing: '0.5px', whiteSpace: 'nowrap',
                   }}>{row.time}</div>

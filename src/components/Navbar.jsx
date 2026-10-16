@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { PHONE, PHONE_HREF, isSaturdayClosedForSeason, SATURDAY_CLOSURE_SHORT } from '../data/products'
+import { PHONE, PHONE_HREF, SEASON_ANNOUNCEMENT } from '../data/products'
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -27,11 +27,9 @@ function AnnouncementBanner() {
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
           letterSpacing: '0.2px', minWidth: 0,
         }}>
-          <strong style={{ fontWeight: 800 }}>Fall Hours</strong>
+          <strong style={{ fontWeight: 800 }}>{SEASON_ANNOUNCEMENT.label}</strong>
           {' — '}
-          {isSaturdayClosedForSeason()
-            ? "We're closed on Saturdays through the fall and winter season"
-            : `We'll be closed on Saturdays starting ${SATURDAY_CLOSURE_SHORT}, through the fall and winter season`}
+          {SEASON_ANNOUNCEMENT.banner}
         </span>
       </div>
     </Link>

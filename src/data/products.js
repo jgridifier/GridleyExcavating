@@ -2,8 +2,9 @@ export const PHONE = '(607) 962-0520'
 export const PHONE_HREF = 'tel:+16079620520'
 export const ADDRESS = '11244 River Road, Corning, NY 14830'
 export const ADDRESS_MAP = 'https://maps.google.com/?q=11244+River+Road+Corning+NY+14830'
-// Saturdays close for the season starting 8/29 — this flips automatically
-// once that date arrives, so the site doesn't need a manual update.
+// Saturdays close for the season starting 8/29, and the retail side closes
+// for the winter starting 11/1. Both flip automatically once their dates
+// arrive, so the site doesn't need a manual update.
 const SATURDAY_CLOSURE_CUTOFF = '2026-08-29'
 export const SATURDAY_CLOSURE_DATE = 'Saturday, August 29th'
 export const SATURDAY_CLOSURE_SHORT = '8/29'
@@ -11,24 +12,55 @@ export function isSaturdayClosedForSeason(date = new Date()) {
   return date.toLocaleDateString('en-CA') >= SATURDAY_CLOSURE_CUTOFF
 }
 
+const RETAIL_WINTER_CUTOFF = '2026-11-01'
+export function isRetailClosedForWinter(date = new Date()) {
+  return date.toLocaleDateString('en-CA') >= RETAIL_WINTER_CUTOFF
+}
+
 const saturdayClosed = isSaturdayClosedForSeason()
+const retailWinter = isRetailClosedForWinter()
+
+const WEEKDAY_TIME = '7:00 AM – 3:00 PM'
 
 export const SATURDAY_HOURS = saturdayClosed
-  ? { day: 'Saturday', time: 'Closed', note: "We're closed on Saturdays through the fall and winter season" }
+  ? { day: 'Saturday', time: 'Closed', closed: true, note: "We're closed on Saturdays through the fall and winter season" }
   : { day: 'Saturday', time: '7:00 AM – 12:00 PM', note: `We'll be closed on Saturdays starting ${SATURDAY_CLOSURE_SHORT}, through the fall and winter season` }
 
+export const WEEKDAY_HOURS = retailWinter
+  ? { day: 'Monday – Friday', time: 'Retail Closed', closed: true, note: 'Closed for the winter · Contractors, call the office to make arrangements' }
+  : { day: 'Monday – Friday', time: WEEKDAY_TIME, note: 'Through October · Retail closes for the winter starting 11/1' }
+
 export const HOURS = [
-  { day: 'Monday – Friday', time: '7:00 AM – 3:00 PM' },
+  WEEKDAY_HOURS,
   SATURDAY_HOURS,
-  { day: 'Sunday', time: 'Closed' },
+  { day: 'Sunday', time: 'Closed', closed: true },
 ]
 
-// Home page "days a week" / hours-summary teasers — stay in sync with
-// the Saturday closure above instead of being hardcoded.
-export const OPEN_DAYS_PER_WEEK = saturdayClosed ? '5' : '6'
-export const HOURS_SUMMARY = saturdayClosed
-  ? 'Mon–Fri 7am–3pm'
-  : 'Mon–Fri 7am–3pm · Sat 7am–12pm (Seasonal)'
+// Site-wide announcement copy (top banner + Hours page callout).
+export const SEASON_ANNOUNCEMENT = retailWinter
+  ? {
+      label: 'Winter Hours',
+      banner: `Retail is closed for the winter · Contractors, call the office: ${PHONE}`,
+      callout: 'Our retail side is closed for the winter. Contractors, please contact the office or make arrangements so you know how to reach us.',
+    }
+  : {
+      label: 'Fall Hours',
+      banner: 'Open Mon–Fri, 7am–3pm through October · Retail closed for the winter starting 11/1',
+      callout: `We're open Monday–Friday, ${WEEKDAY_TIME} for the rest of October. Starting November 1, our retail side will be closed for the winter. Contractors, please contact the office or make arrangements so you know how to reach us.`,
+    }
+
+// Home page + Hours page teasers — kept in sync with the dates above
+// instead of being hardcoded.
+export const OPEN_DAYS_PER_WEEK = retailWinter ? null : '5'
+export const HOURS_SUMMARY = retailWinter
+  ? 'Retail closed for the winter · Contractors, call the office'
+  : 'Mon–Fri 7am–3pm through October'
+export const HERO_TAGLINE = retailWinter
+  ? ['Located in South Corning. Our retail side is closed for the winter.', 'Contractors: please contact the office or make arrangements.']
+  : [`Located in South Corning, open ${OPEN_DAYS_PER_WEEK} days a week.`, 'Pickup and delivery throughout Steuben, Chemung & Schuyler Counties.']
+export const HOURS_TAGLINE = retailWinter
+  ? "We're closed to retail customers for the winter. Contractors, give us a call or make arrangements ahead of time."
+  : 'Stop by during business hours or give us a call first — either way works for us.'
 
 // Prices change 9/1 — this flips automatically once that date arrives,
 // same mechanism as the Saturday closure above.

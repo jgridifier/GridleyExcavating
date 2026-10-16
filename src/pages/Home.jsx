@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Gallery from '../components/Gallery'
-import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, HOME_PRICE_HIGHLIGHTS, OPEN_DAYS_PER_WEEK, HOURS_SUMMARY } from '../data/products'
+import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, HOME_PRICE_HIGHLIGHTS, OPEN_DAYS_PER_WEEK, HOURS_SUMMARY, HERO_TAGLINE } from '../data/products'
 
 const base = import.meta.env.BASE_URL
 
@@ -140,8 +140,8 @@ export default function Home() {
               lineHeight: 1.5,
             }}
           >
-            Located in South Corning, open {OPEN_DAYS_PER_WEEK} days a week.<br />
-            Pickup and delivery throughout Steuben, Chemung &amp; Schuyler Counties.
+            {HERO_TAGLINE[0]}<br />
+            {HERO_TAGLINE[1]}
           </motion.p>
 
           <motion.div
@@ -221,7 +221,7 @@ export default function Home() {
             { value: '29', suffix: '', label: 'Years in Business' },
             { value: '20', suffix: '', label: 'Products Offered' },
             { value: '20', suffix: '+', label: 'Mile Delivery Radius' },
-            { value: OPEN_DAYS_PER_WEEK, suffix: '', label: 'Days a Week' },
+            ...(OPEN_DAYS_PER_WEEK ? [{ value: OPEN_DAYS_PER_WEEK, suffix: '', label: 'Days a Week' }] : []),
           ].map((stat, i) => (
             <motion.div key={i} {...fadeUp(i * 0.1)}>
               <div style={{

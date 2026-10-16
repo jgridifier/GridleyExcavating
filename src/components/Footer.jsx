@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, HOURS, SATURDAY_HOURS } from '../data/products'
+import { PHONE, PHONE_HREF, ADDRESS, ADDRESS_MAP, WEEKDAY_HOURS, SATURDAY_HOURS } from '../data/products'
 
 export default function Footer() {
   return (
@@ -62,7 +62,8 @@ export default function Footer() {
           {/* Hours */}
           <div>
             <h4 style={{ fontSize: 12, fontWeight: 600, color: '#aaa', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 16 }}>Hours</h4>
-            <p style={{ fontSize: 14, color: '#f0ebe3', marginBottom: 4 }}>Mon – Fri: <span style={{ color: '#aaa' }}>{HOURS[0].time}</span></p>
+            <p style={{ fontSize: 14, color: '#f0ebe3' }}>Mon – Fri: <span style={{ color: '#aaa' }}>{WEEKDAY_HOURS.time}</span></p>
+            {WEEKDAY_HOURS.note && <p style={{ fontSize: 12, color: '#777', marginTop: 2, marginBottom: 10, fontStyle: 'italic' }}>{WEEKDAY_HOURS.note}</p>}
             <p style={{ fontSize: 14, color: '#f0ebe3' }}>Saturday: <span style={{ color: '#aaa' }}>{SATURDAY_HOURS.time}</span></p>
             {SATURDAY_HOURS.note && <p style={{ fontSize: 12, color: '#777', marginTop: 2, fontStyle: 'italic' }}>{SATURDAY_HOURS.note}</p>}
           </div>
